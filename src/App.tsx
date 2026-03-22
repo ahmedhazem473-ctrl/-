@@ -233,6 +233,11 @@ export default function App() {
                   value={playerName}
                   onChange={(e) => setPlayerName(e.target.value)}
                   placeholder="اكتب اسمك هنا..."
+                  aria-label="اسم اللاعب"
+                  title="اسم اللاعب"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck={false}
                   className="w-full px-4 py-3 rounded-xl bg-indigo-50 border border-indigo-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-indigo-900 placeholder-indigo-300"
                 />
               </div>
@@ -247,6 +252,11 @@ export default function App() {
                   value={roomCode}
                   onChange={(e) => setRoomCode(e.target.value)}
                   placeholder="ادخل الكود"
+                  aria-label="كود الغرفة"
+                  title="كود الغرفة"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck={false}
                   className="w-full px-4 py-3 rounded-xl bg-indigo-50 border border-indigo-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-indigo-900 placeholder-indigo-300 text-center text-xl tracking-widest"
                   maxLength={4}
                 />
@@ -381,6 +391,11 @@ export default function App() {
                     value={answers[field.id as keyof typeof answers]}
                     onChange={(e) => handleInputChange(field.id as keyof typeof answers, e.target.value)}
                     placeholder={field.label}
+                    aria-label={field.label}
+                    title={field.label}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
                     className="w-full pl-4 pr-12 py-3 rounded-xl bg-white border-2 border-indigo-100 focus:border-indigo-500 focus:ring-0 outline-none transition-all text-indigo-900 font-medium"
                   />
                 </div>
