@@ -224,11 +224,12 @@ export default function App() {
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-indigo-900 flex items-center gap-2">
-                  <User size={16} />
-                  اسم اللاعب
+                <label htmlFor="playerNameInput" className="text-sm font-semibold text-indigo-900 flex items-center gap-2">
+                  <User size={16} aria-hidden="true" />
+                  <span>اسم اللاعب</span>
                 </label>
                 <input
+                  id="playerNameInput"
                   type="text"
                   value={playerName}
                   onChange={(e) => setPlayerName(e.target.value)}
@@ -243,11 +244,12 @@ export default function App() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-indigo-900 flex items-center gap-2">
-                  <Users size={16} />
-                  كود الغرفة
+                <label htmlFor="roomCodeInput" className="text-sm font-semibold text-indigo-900 flex items-center gap-2">
+                  <Users size={16} aria-hidden="true" />
+                  <span>كود الغرفة</span>
                 </label>
                 <input
+                  id="roomCodeInput"
                   type="text"
                   value={roomCode}
                   onChange={(e) => setRoomCode(e.target.value)}
@@ -270,7 +272,7 @@ export default function App() {
                   onClick={handleJoinRoom}
                   className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2 active:scale-95"
                 >
-                  <Play size={20} />
+                  <Play size={20} aria-hidden="true" />
                   انضمام للغرفة
                 </button>
               </div>
@@ -287,7 +289,7 @@ export default function App() {
                   onClick={handleCreateRoom}
                   className="w-full bg-white hover:bg-indigo-50 text-indigo-600 font-bold py-4 rounded-xl border-2 border-indigo-100 transition-all flex items-center justify-center gap-2 active:scale-95"
                 >
-                  <Plus size={20} />
+                  <Plus size={20} aria-hidden="true" />
                   إنشاء غرفة جديدة
                 </button>
               </div>
@@ -322,7 +324,7 @@ export default function App() {
               onClick={() => setGameState('JOIN_CREATE')}
               className="w-full bg-white hover:bg-indigo-50 text-indigo-600 font-bold py-4 rounded-xl border-2 border-indigo-100 transition-all flex items-center justify-center gap-2 active:scale-95"
             >
-              <ArrowRight size={20} />
+              <ArrowRight size={20} aria-hidden="true" />
               الرجوع للخلف
             </button>
           </motion.div>
@@ -366,7 +368,7 @@ export default function App() {
               
               <div className="flex flex-col items-end">
                 <div className={`flex items-center gap-2 text-xl font-bold ${timeLeft < 30 ? 'text-red-500 animate-pulse' : 'text-indigo-600'}`}>
-                  <Clock size={20} />
+                  <Clock size={20} aria-hidden="true" />
                   {formatTime(timeLeft)}
                 </div>
                 <p className="text-xs text-indigo-400 font-semibold">الوقت المتبقي</p>
@@ -383,10 +385,12 @@ export default function App() {
                 { id: 'country', label: 'بلاد', icon: '🌍' },
               ].map((field) => (
                 <div key={field.id} className="relative">
-                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                  <label htmlFor={`input-${field.id}`} className="sr-only">{field.label}</label>
+                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none" aria-hidden="true">
                     <span className="text-xl">{field.icon}</span>
                   </div>
                   <input
+                    id={`input-${field.id}`}
                     type="text"
                     value={answers[field.id as keyof typeof answers]}
                     onChange={(e) => handleInputChange(field.id as keyof typeof answers, e.target.value)}
@@ -406,7 +410,7 @@ export default function App() {
               onClick={handleFinishGame}
               className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-200 transition-all flex items-center justify-center gap-2 active:scale-95"
             >
-              <CheckCircle2 size={20} />
+              <CheckCircle2 size={20} aria-hidden="true" />
               انتهيت
             </button>
           </motion.div>
@@ -434,7 +438,7 @@ export default function App() {
               <div className="bg-indigo-50 rounded-2xl p-5 border-2 border-indigo-100">
                 <div className="flex items-center gap-3 mb-6 border-b border-indigo-100 pb-4">
                   <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white">
-                    <User size={20} />
+                    <User size={20} aria-hidden="true" />
                   </div>
                   <h3 className="text-xl font-bold text-indigo-900">{playerName}</h3>
                 </div>
@@ -462,7 +466,7 @@ export default function App() {
               <div className="bg-pink-50 rounded-2xl p-5 border-2 border-pink-100">
                 <div className="flex items-center gap-3 mb-6 border-b border-pink-100 pb-4">
                   <div className="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white">
-                    <User size={20} />
+                    <User size={20} aria-hidden="true" />
                   </div>
                   <h3 className="text-xl font-bold text-pink-900">Fatma</h3>
                 </div>
@@ -492,7 +496,7 @@ export default function App() {
                 onClick={startGame}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2 active:scale-95"
               >
-                <RotateCcw size={20} />
+                <RotateCcw size={20} aria-hidden="true" />
                 العب مرة أخرى
               </button>
               
@@ -500,7 +504,7 @@ export default function App() {
                 onClick={() => setGameState('JOIN_CREATE')}
                 className="bg-white hover:bg-red-50 text-red-500 font-bold py-4 rounded-xl border-2 border-red-100 transition-all flex items-center justify-center gap-2 active:scale-95"
               >
-                <LogOut size={20} />
+                <LogOut size={20} aria-hidden="true" />
                 خروج
               </button>
             </div>
