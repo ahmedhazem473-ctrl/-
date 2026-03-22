@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, Plus, ArrowRight, CheckCircle2, LogOut, RotateCcw, Clock, User, Users } from 'lucide-react';
+import { Play, Plus, ArrowRight, CheckCircle2, LogOut, RotateCcw, User, Users } from 'lucide-react';
 
 const botDictionary: Record<string, Record<string, string>> = {
   'أ': { boy: 'أحمد', girl: 'أمل', plant: 'أرز', animal: 'أسد', object: 'أريكة', country: 'أمريكا' },
@@ -43,7 +43,6 @@ export default function App() {
   const [roomCode, setRoomCode] = useState('');
   const [generatedRoomCode, setGeneratedRoomCode] = useState('');
   const [currentLetter, setCurrentLetter] = useState('');
-  const [timeLeft, setTimeLeft] = useState(180);
   
   const [answers, setAnswers] = useState({
     boy: '',
@@ -112,20 +111,6 @@ export default function App() {
     }
   }, [gameState]);
 
-  useEffect(() => {
-    let timer: ReturnType<typeof setInterval>;
-    if (gameState === 'GAMEPLAY' && timeLeft > 0) {
-      timer = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
-      }, 1000);
-    } else if (gameState === 'GAMEPLAY' && timeLeft === 0) {
-      handleFinishGame();
-    }
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [gameState, timeLeft]);
-
   const handleJoinRoom = () => {
     if (!playerName.trim()) {
       setErrorMsg('الرجاء إدخال اسمك');
@@ -157,18 +142,11 @@ export default function App() {
     const randomLetter = arabicLetters[Math.floor(Math.random() * arabicLetters.length)];
     setCurrentLetter(randomLetter);
     setAnswers({ boy: '', girl: '', plant: '', animal: '', object: '', country: '' });
-    setTimeLeft(180);
     setGameState('LETTER_REVEAL');
     
     setTimeout(() => {
       setGameState('GAMEPLAY');
     }, 3000);
-  };
-
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
   const handleInputChange = (field: keyof typeof answers, value: string) => {
@@ -365,14 +343,6 @@ export default function App() {
                   <p className="text-sm font-bold text-indigo-900">ابدأ بـ {currentLetter}</p>
                 </div>
               </div>
-              
-              <div className="flex flex-col items-end">
-                <div className={`flex items-center gap-2 text-xl font-bold ${timeLeft < 30 ? 'text-red-500 animate-pulse' : 'text-indigo-600'}`}>
-                  <Clock size={20} aria-hidden="true" />
-                  {formatTime(timeLeft)}
-                </div>
-                <p className="text-xs text-indigo-400 font-semibold">الوقت المتبقي</p>
-              </div>
             </div>
 
             <div className="space-y-4">
@@ -514,7 +484,7 @@ export default function App() {
   };
 
   return (
-    <div dir="rtl" className="min-h-[100dvh] bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4 font-sans selection:bg-indigo-200">
+    <div dir="rtl" aria-hidden="true" className="min-h-[100dvh] bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4 font-sans selection:bg-indigo-200">
       <AnimatePresence mode="wait">
         {renderScreen()}
       </AnimatePresence>
