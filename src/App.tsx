@@ -113,7 +113,7 @@ export default function App() {
   }, [gameState]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setInterval>;
     if (gameState === 'GAMEPLAY' && timeLeft > 0) {
       timer = setInterval(() => {
         setTimeLeft((prev) => prev - 1);
@@ -121,12 +121,18 @@ export default function App() {
     } else if (gameState === 'GAMEPLAY' && timeLeft === 0) {
       handleFinishGame();
     }
-    return () => clearInterval(timer);
-  }, [gameState, timeLeft, answers, currentLetter]);
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [gameState, timeLeft]);
 
   const handleJoinRoom = () => {
     if (!playerName.trim()) {
       setErrorMsg('الرجاء إدخال اسمك');
+      return;
+    }
+    if (!roomCode.trim()) {
+      setErrorMsg('الرجاء إدخال كود الغرفة');
       return;
     }
     const validCodes = ['8349', '9870', '3678', '9836', '5248', '6759', '7539', '5635'];
@@ -335,7 +341,7 @@ export default function App() {
             key="gameplay"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-6 space-y-6 max-h-[90vh] overflow-y-auto"
+            className="w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-6 space-y-6 max-h-[90dvh] overflow-y-auto"
           >
             <div className="flex items-center justify-between bg-indigo-50 p-4 rounded-2xl">
               <div className="flex items-center gap-3">
@@ -399,7 +405,7 @@ export default function App() {
             key="results"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-2xl bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-6 space-y-8 max-h-[95vh] overflow-y-auto"
+            className="w-full max-w-2xl bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-6 space-y-8 max-h-[95dvh] overflow-y-auto"
           >
             <div className="text-center space-y-2">
               <h2 className="text-3xl font-black text-indigo-900">النتائج</h2>
@@ -489,7 +495,7 @@ export default function App() {
   };
 
   return (
-    <div dir="rtl" className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4 font-sans selection:bg-indigo-200">
+    <div dir="rtl" className="min-h-[100dvh] bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4 font-sans selection:bg-indigo-200">
       <AnimatePresence mode="wait">
         {renderScreen()}
       </AnimatePresence>
